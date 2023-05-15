@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  ft_bot:
+    container_name: ft-experiment-bot
+    build:
+      context: .
+      dockerfile: docker/python/Dockerfile
+    restart: always
+    volumes:
+      - ${DATA_VOLUME_DIR}:/usr/src/app/data
+    env_file:
+      - .env
+    command: [
+      "poetry", "run", "python3", "-m", "main"
+    ]
+
