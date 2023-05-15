@@ -1,6 +1,7 @@
 import asyncio
 import logging
 import textwrap
+import uuid
 from typing import Callable, Optional, List
 
 import pydantic
@@ -66,8 +67,10 @@ class TelegramBot:
 
 	async def start_game(self, message: types.Message) -> None:
 		await self.game.start_game()
-		await self.send_message(user_id=message.chat.id, text="Игра запущена")
-		await self.game_processing()
+		game_id = uuid.uuid4()
+		logging.info(f"Game started: {game_id}")
+		await self.send_message(user_id=message.chat.id, text=f"Игра запущена {game_id}")
+		await self.game_processing(game_id)
 
 	async def stop_game(self, message: types.Message) -> None:
 		await self.game.stop_game()
@@ -88,14 +91,13 @@ class TelegramBot:
 			await asyncio.sleep(self.settings.YEARS_TIME_SLEEP)
 		return qrtl, year
 
-	async def game_processing(self):
+	async def game_processing(self, game_id: uuid.UUID):
 		year = 0
 		qrtl = 0
 		await self.notif_player_name()
 		while self.game.is_game_stared and (year < 5 or qrtl < 4):
 			qrtl, year = await self.iteration_qrtl_year(qrtl, year)
 			for p in self.game.players:
-				print(p)
 				kb = await self.get_keyboard(chat_id=p.chat_id)
 				await self.bot.send_message(
 					chat_id=p.chat_id,
@@ -112,9 +114,12 @@ class TelegramBot:
 			await self.game.finish_round()
 			for p in self.game.players:
 				await self.send_message(user_id=p.chat_id, text=str(self.game.map))
+			logging.info(f"map:\n{self.game.map}")
 			top = await self.game.get_players_top()
+
 			for p in self.game.players:
 				await self.send_message(user_id=p.chat_id, text=f"Квартал: {qrtl} Год: {year}\n{top}")
+		logging.info(f"Игра окончена {game_id}")
 
 	async def play(self, message: types.Message):
 		await self.game.add_player(message.chat.id)
@@ -122,12 +127,12 @@ class TelegramBot:
 
 	async def set_strategy(self, query: types.CallbackQuery, callback_data: dict):
 		await self.game.set_player_strategy(chat_id=callback_data['tg_id'], st=callback_data['action'])
-		print(callback_data['action'])
 		await self.bot.edit_message_text(
 			f'Ответ принят.',
 			query.from_user.id,
 			query.message.message_id
 		)
+		logging.info(f"Player:{query.from_user} {callback_data['action']}")
 
 	async def send_message(self, user_id: int, text: str, disable_notification: bool = False, *args, **kwargs) -> bool:
 		"""

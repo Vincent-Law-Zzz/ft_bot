@@ -118,27 +118,3 @@ class Map:
 			res += self.border
 		return res
 
-
-# async def main():
-# 	m = Map(
-# 		x=7,
-# 		y=11,
-# 		conf=[
-# 			['200', '120', '80', '50', '30', '20', '10', '5', '0', '0', '0'],
-# 			['180', '150', '100', '70', '50', '40', '30', '15', '10', '5', '0'],
-# 			['190', '210', '150', '120', '100', '80', '50', '30', '20', '10', '5']
-# 		]
-# 	)
-# 	await m.build()
-# 	print(m)
-# 	print(m.position)
-# 	await m.move(1, 14)
-# 	res = await m.get_current_payment()
-# 	print(m)
-# 	print(m.position)
-# 	print(res)
-#
-#
-# if __name__ == '__main__':
-# 	asyncio.run(main())
-

@@ -1,3 +1,4 @@
+import logging
 from typing import List, Dict
 
 from app.pkg.models import Player
@@ -103,7 +104,7 @@ class Game:
 	async def set_player_name(self) -> None:
 		player_num = 0
 		for p in self.players:
-			print(p)
+			logging.info(f"{p}")
 			self.players[player_num].name = f"player_{player_num + 1}"
 			player_num += 1
 
@@ -126,95 +127,3 @@ class Game:
 					f"🔵{self.strategy['b']} ⚪{self.strategy['w']}"
 		return top_text
 
-# async def main():
-# 	m = Map(
-# 		x=7,
-# 		y=11,
-# 		conf=[
-# 			['200', '120', '80', '50', '30', '20', '10', '5', '0', '0', '0'],
-# 			['180', '150', '100', '70', '50', '40', '30', '15', '10', '5', '0'],
-# 			['190', '210', '150', '120', '100', '80', '50', '30', '20', '10', '5']
-# 		]
-# 	)
-# 	await m.build()
-# 	g = Game(m)
-#
-# 	await g.add_player(1)
-# 	await g.add_player(1)
-# 	await g.add_player(1)
-# 	await g.add_player(2)
-# 	await g.add_player(3)
-# 	await g.add_player(4)
-# 	await g.add_player(5)
-# 	await g.add_player(6)
-# 	await g.set_player_name()
-#
-# 	print("round 1")
-#
-# 	await g.set_player_strategy(1, "🔴")
-# 	await g.set_player_strategy(2, "🔴")
-# 	await g.set_player_strategy(3, "🟡")
-# 	await g.set_player_strategy(4, "🔴")
-# 	await g.set_player_strategy(5, "⚪")
-# 	await asyncio.sleep(1)
-# 	await g.finish_round()
-# 	print(g.map)
-# 	print(await g.get_players_top())
-#
-# 	# await g.stop_game()
-#
-# 	print("round 2")
-#
-# 	await g.set_player_strategy(1, "🔴")
-# 	await g.set_player_strategy(2, "🔴")
-# 	await g.set_player_strategy(3, "🟡")
-# 	await g.set_player_strategy(4, "🔴")
-# 	await g.set_player_strategy(5, "🔵")
-# 	await asyncio.sleep(1)
-# 	await g.finish_round()
-# 	print(g.map)
-# 	print(await g.get_players_top())
-#
-# 	print("round 3")
-# 	await g.start_game()
-# 	await g.set_player_name()
-# 	await g.set_player_strategy(1, "🔴")
-# 	await g.set_player_strategy(2, "🔴")
-# 	await g.set_player_strategy(3, "🟡")
-# 	await g.set_player_strategy(4, "🔴")
-# 	await g.set_player_strategy(5, "⚪")
-# 	await asyncio.sleep(1)
-# 	await g.finish_round()
-# 	print(g.map)
-# 	print(await g.get_players_top())
-#
-# 	print("round 4")
-# 	await g.start_game()
-# 	await g.set_player_name()
-# 	await g.set_player_strategy(1, "🔴")
-# 	await g.set_player_strategy(2, "🔴")
-# 	await g.set_player_strategy(3, "🟡")
-# 	await g.set_player_strategy(4, "🔴")
-# 	await g.set_player_strategy(5, "⚪")
-# 	await asyncio.sleep(1)
-# 	await g.finish_round()
-# 	print(g.map)
-# 	print(await g.get_players_top())
-#
-# 	print("round 5")
-# 	await g.start_game()
-# 	await g.set_player_name()
-# 	await g.set_player_strategy(1, "🔴")
-# 	await g.set_player_strategy(2, "🔴")
-# 	# await g.set_player_strategy(3, "🟡")
-# 	await g.set_player_strategy(4, "🔴")
-# 	await g.set_player_strategy(5, "⚪")
-# 	await asyncio.sleep(1)
-# 	await g.finish_round()
-# 	print(g.map)
-# 	print(await g.get_players_top())
-#
-#
-#
-# if __name__ == '__main__':
-# 	asyncio.run(main())
