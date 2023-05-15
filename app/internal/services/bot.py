@@ -116,7 +116,7 @@ class TelegramBot:
 				await self.send_message(user_id=p.chat_id, text=str(self.game.map))
 			logging.info(f"map:\n{self.game.map}")
 			top = await self.game.get_players_top()
-
+			logging.info(f"Топ игроков:\n{top}")
 			for p in self.game.players:
 				await self.send_message(user_id=p.chat_id, text=f"Квартал: {qrtl} Год: {year}\n{top}")
 		logging.info(f"Игра окончена {game_id}")
